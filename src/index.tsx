@@ -68,27 +68,36 @@ function Table<T>(prop: React.PropsWithChildren<Prop<T>>) {
   const colNames = Object.keys(prop.data[0]) as (keyof T)[];
 
   return (
-    <div className="table">
-      <div className="row -heading" style={{ display: "flex" }}>
-        {colNames.map((colName) => {
-          return <div className="cell">{prop.columns[colName].label}</div>;
-        })}
-      </div>
-
-      {prop.data.map((row) => (
-        <div
-          className="row"
-          style={{
-            display: "flex",
-          }}
-        >
+    <div className="table" role="table">
+      <div className="rowgroup -head" role="rowgroup">
+        <div className="row -heading" style={{ display: "flex" }} role="row">
           {colNames.map((colName) => {
-            const mapper = prop.columns[colName].mapper ?? ((v) => v);
-
-            return <div className="cell">{mapper(row[colName])}</div>;
+            return <div className="cell">{prop.columns[colName].label}</div>;
           })}
         </div>
-      ))}
+      </div>
+
+      <div className="rowgroup -body" role="rowgroup">
+        {prop.data.map((row) => (
+          <div
+            className="row"
+            role="row"
+            style={{
+              display: "flex",
+            }}
+          >
+            {colNames.map((colName) => {
+              const mapper = prop.columns[colName].mapper ?? ((v) => v);
+
+              return (
+                <div className="cell" role="cell">
+                  {mapper(row[colName])}
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
