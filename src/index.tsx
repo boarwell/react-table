@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDom from "react-dom";
 
+import "styled-jsx/style";
+
 /**
  * 1行に必要なデータ型
  */
@@ -15,6 +17,7 @@ type SampleType = {
 const data: SampleType[] = [
   { name: "hoge", age: 12 },
   { name: "fuga", age: 23 },
+  { name: "とっても長い名前", age: 23 },
 ];
 
 /**
@@ -70,7 +73,7 @@ function Table<T>(prop: React.PropsWithChildren<Prop<T>>) {
   return (
     <div className="table" role="table">
       <div className="rowgroup -head" role="rowgroup">
-        <div className="row -heading" style={{ display: "flex" }} role="row">
+        <div className="row -heading" role="row">
           {colNames.map((colName) => {
             return <div className="cell">{prop.columns[colName].label}</div>;
           })}
@@ -79,13 +82,7 @@ function Table<T>(prop: React.PropsWithChildren<Prop<T>>) {
 
       <div className="rowgroup -body" role="rowgroup">
         {prop.data.map((row) => (
-          <div
-            className="row"
-            role="row"
-            style={{
-              display: "flex",
-            }}
-          >
+          <div className="row" role="row">
             {colNames.map((colName) => {
               const mapper = prop.columns[colName].mapper ?? ((v) => v);
 
@@ -98,6 +95,20 @@ function Table<T>(prop: React.PropsWithChildren<Prop<T>>) {
           </div>
         ))}
       </div>
+
+      <style jsx>{`
+        .table {
+          display: grid;
+          grid-template-columns: repeat(${colNames.length}, max-content);
+        }
+        .rowgroup {
+          display: contents;
+        }
+
+        .row {
+          display: contents;
+        }
+      `}</style>
     </div>
   );
 }
@@ -108,7 +119,12 @@ const main = () => {
     return;
   }
 
-  ReactDom.render(<Table data={data} columns={columns} />, app);
+  ReactDom.render(
+    <>
+      <Table data={data} columns={columns} />
+    </>,
+    app
+  );
 };
 
 main();

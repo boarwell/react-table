@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "parcel watch src/index.tsx --out-dir ./build"
+    "watch": "parcel watch src/index.tsx --out-dir ./build",
+    "build": "parcel build src/index.tsx --out-dir ./build"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/gorimori/react-table#readme",
   "devDependencies": {
+    "@babel/core": "^7.10.5",
     "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
     "parcel": "^1.12.4",
@@ -26,6 +28,7 @@
   },
   "dependencies": {
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "styled-jsx": "^3.3.0"
   }
 }
