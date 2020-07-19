@@ -68,6 +68,12 @@ type Prop<T> = {
  * Tableコンポーネント
  */
 function Table<T>(prop: React.PropsWithChildren<Prop<T>>) {
+  const [data, setData] = React.useState(prop.data);
+  const [sortedBy, setSortedBy] = React.useState<keyof T | null>(null);
+  const [sortDirection, setSortDirection] = React.useState<"ASC" | "DESC">(
+    "ASC"
+  );
+
   const colNames = Object.keys(prop.data[0]) as (keyof T)[];
 
   return (
@@ -75,13 +81,23 @@ function Table<T>(prop: React.PropsWithChildren<Prop<T>>) {
       <thead className="rowgroup -head">
         <tr className="row -head">
           {colNames.map((colName) => {
-            return <th className="cell -th">{prop.columns[colName].label}</th>;
+            return (
+              <th
+                className="cell -th"
+                onClick={() => {
+                  setSortedBy(colName);
+                }}
+              >
+                {prop.columns[colName].label}
+                {sortedBy === colName ? "*" : ""}
+              </th>
+            );
           })}
         </tr>
       </thead>
 
       <tbody className="rowgroup -body">
-        {prop.data.map((row) => (
+        {data.map((row) => (
           <tr className="row -body">
             {colNames.map((colName) => {
               const mapper = prop.columns[colName].mapper ?? ((v) => v);
